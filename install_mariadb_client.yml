@@ -1,0 +1,9 @@
+--- 
+- name: Install MariDB client
+  hosts: db_client
+  become: true
+  tasks:
+    - name: Install mariadb clinet package
+      yum:
+        name: mariadb
+        state: present

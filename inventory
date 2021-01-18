@@ -1,0 +1,11 @@
+control_node:
+    hosts:
+        workstation.lab.example.com: {}
+
+db_servers:
+    hosts:
+        servera.lab.example.com: {}
+
+db_clients:
+    hosts:
+        serverb.lab.example.com: {}

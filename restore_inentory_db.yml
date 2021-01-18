@@ -1,0 +1,29 @@
+---
+- name: Restore inventory database if not present
+  hosts: db_servers
+  become: true
+  tasks:
+    - name: Creating inventory database
+      mysql_db:
+        name: inventory
+        state: present
+      register: inventory_present
+    
+    - name: Is inventory  database backup present
+      stat:
+        path: /srv/inventory-database.sql
+      register: inventory_bkp
+
+    - name: Copy databse backup file if not present
+      copy: 
+        src: files/inventory-database.sql
+        dest: /srv
+      when:
+        - inventory_present['changed'] == true
+        - inventory-bkp['stat']['exists'] == false
+    - name: Restor database
+      mysql_db:
+        name: inventory
+        state: import
+        target: /srv/invnetory-database.sql
+      when: inventory_present['changed'] = true

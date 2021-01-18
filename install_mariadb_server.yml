@@ -1,0 +1,23 @@
+---
+- name: Install MariaDB Server
+  hosts: db_servers
+  become: true
+  tasks:
+    - name: Install MariaDB Server Package
+      yum: 
+        name: mariadb-server
+        state: present
+
+    - name: Start  and Enable maariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: true
+    
+    - name: Add mysql service to furewall
+      firewalld:
+        service: mysql
+        permanent: true
+        immediate: true
+        state: enabled
+    
